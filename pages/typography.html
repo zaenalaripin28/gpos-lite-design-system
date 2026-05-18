@@ -572,9 +572,188 @@
         background: linear-gradient(to right, rgba(30,127,214,0.1) 0%, var(--bg-surface) 100%);
       }
       [data-theme="dark"] .gpl-neutral-0-bg { background: var(--bg-surface); }
+
+      /* ─── Scroll Progress Bar ────────────────────────────────── */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--gpl-blue-300) 0%, var(--gpl-purple-300) 55%, var(--gpl-blue-200) 100%);
+        z-index: 9999;
+        transition: width 60ms linear;
+        border-radius: 0 2px 2px 0;
+        pointer-events: none;
+      }
+
+      /* ─── Card reveal animations ─────────────────────────────── */
+      .reveal-card {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 380ms ease, transform 380ms ease;
+      }
+      .reveal-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ─── Interactive Font Tester ─────────────────────────────── */
+      .font-tester {
+        background: var(--gpl-neutral-0);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(9,30,66,.07);
+        transition: box-shadow 200ms ease;
+      }
+      .font-tester:focus-within { box-shadow: 0 4px 16px rgba(9,30,66,.12); }
+      [data-theme="dark"] .font-tester { background: var(--bg-surface); }
+      .font-tester-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 12px 20px;
+        background: var(--bg-subtle);
+        border-bottom: 1px solid var(--border);
+      }
+      .tester-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .tester-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--text-3);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        white-space: nowrap;
+      }
+      .tester-select {
+        padding: 5px 8px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        background: var(--gpl-neutral-0);
+        color: var(--text-1);
+        font-family: var(--font-sans);
+        font-size: 12px;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+        max-width: 148px;
+      }
+      .tester-select:focus {
+        border-color: var(--gpl-blue-300);
+        box-shadow: 0 0 0 2px rgba(30,127,214,.15);
+      }
+      [data-theme="dark"] .tester-select {
+        background: var(--bg-subtle);
+        border-color: var(--border);
+        color: var(--text-1);
+      }
+      .font-tester-preview {
+        padding: 32px 28px;
+        min-height: 120px;
+        cursor: text;
+        outline: none;
+        color: var(--text-1);
+        word-break: break-word;
+        transition: font-size 180ms ease, line-height 180ms ease;
+        font-family: var(--font-sans);
+        border: 2px solid transparent;
+      }
+      .font-tester-preview:focus {
+        background: var(--accent-bg);
+        border-radius: 0;
+      }
+      .tester-reset-btn {
+        margin-left: auto;
+        padding: 5px 12px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-2);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        transition: all 150ms ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .tester-reset-btn:hover { background: var(--gpl-neutral-30); color: var(--text-1); }
+      [data-theme="dark"] .tester-reset-btn:hover { background: var(--bg-subtle); }
+      .tester-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 20px;
+        border-top: 1px solid var(--border);
+        background: var(--bg-subtle);
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .tester-info-badge {
+        font-size: 10.5px;
+        font-family: var(--font-mono);
+        color: var(--text-3);
+        background: var(--gpl-neutral-0);
+        border: 1px solid var(--border);
+        padding: 2px 8px;
+        border-radius: var(--radius-full);
+      }
+      [data-theme="dark"] .tester-info-badge { background: var(--bg-subtle); }
+
+      /* ─── Quick presets strip ────────────────────────────────── */
+      .tester-presets {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        padding: 10px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--gpl-neutral-0);
+      }
+      [data-theme="dark"] .tester-presets { background: var(--bg-surface); }
+      .preset-btn {
+        padding: 3px 10px;
+        border-radius: var(--radius-full);
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-2);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        transition: all 150ms ease;
+        white-space: nowrap;
+      }
+      .preset-btn:hover, .preset-btn.active {
+        background: var(--gpl-blue-50);
+        color: var(--gpl-blue-400);
+        border-color: rgba(30,127,214,.3);
+      }
+      [data-theme="dark"] .preset-btn:hover, [data-theme="dark"] .preset-btn.active {
+        background: rgba(68,149,221,.12);
+        color: #7DB5E7;
+      }
+
+      /* ─── Responsive: reduce motion ─────────────────────────── */
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-card { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .scroll-progress { display: none; }
+      }
+
+      /* ─── Stat counter number ────────────────────────────────── */
+      .stat-number { display: inline-block; }
     </style>
 </head>
 <body>
+
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress" id="scrollProgress" role="progressbar" aria-hidden="true"></div>
 
 <!-- Mobile Overlay -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -711,6 +890,10 @@
           <a href="#section-sizes" style="display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:9999px;color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">Size Scale</a>
           <a href="#section-weights" style="display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:9999px;color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">Weights</a>
           <a href="#section-code" style="display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:9999px;color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">Code</a>
+          <a href="#section-tester" style="display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:rgba(110,62,246,.25);border:1px solid rgba(110,62,246,.4);border-radius:9999px;color:rgba(255,255,255,.9);font-size:12px;font-weight:600;text-decoration:none;transition:background .15s;" onmouseover="this.style.background='rgba(110,62,246,.4)'" onmouseout="this.style.background='rgba(110,62,246,.25)'">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Live Tester
+          </a>
         </div>
       </div>
       <!-- Stats -->
@@ -731,13 +914,13 @@
     </div>
 
     <!-- ─── Stats Bar ─────────────────────────────────────────────── -->
-    <div style="margin:0 var(--spacing-10) var(--spacing-8);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+    <div data-stats-bar style="margin:0 var(--spacing-10) var(--spacing-8);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
       <div style="background:var(--gpl-neutral-0);border:1px solid var(--border);border-top:3px solid var(--gpl-blue-300);border-radius:var(--border-radius-xl);padding:var(--spacing-4) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-3);box-shadow:0 1px 3px rgba(9,30,66,.06);transition:all 200ms ease;" onmouseover="this.style.boxShadow='0 6px 16px rgba(9,30,66,.1)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 1px 3px rgba(9,30,66,.06)';this.style.transform='translateY(0)'">
         <div style="width:44px;height:44px;border-radius:var(--border-radius-lg);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--gpl-blue-50);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E7FD6" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="10" y2="18"/></svg>
         </div>
         <div>
-          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-blue-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">9</div>
+          <div class="stat-number" data-count="9" style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-blue-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">9</div>
           <div style="font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Size Tokens</div>
         </div>
       </div>
@@ -746,7 +929,7 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6E3EF6" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
         </div>
         <div>
-          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-purple-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">5</div>
+          <div class="stat-number" data-count="5" style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-purple-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">5</div>
           <div style="font-size:11px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;">Font Weights</div>
         </div>
       </div>
@@ -755,7 +938,7 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9015" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </div>
         <div>
-          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-orange-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">5</div>
+          <div class="stat-number" data-count="5" style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-orange-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">5</div>
           <div style="font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Line Heights</div>
         </div>
       </div>
@@ -764,7 +947,7 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00AA5B" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
         </div>
         <div>
-          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-green-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">2</div>
+          <div class="stat-number" data-count="2" style="font-size:var(--font-size-xl);font-weight:800;color:var(--gpl-green-300);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">2</div>
           <div style="font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Font Families</div>
         </div>
       </div>
@@ -848,6 +1031,105 @@
             <code style="font-family:'JetBrains Mono','Courier New',monospace;background:none;padding:0;color:#86efac;font-size:var(--font-size-sm);">const greeting = <span style="color:#93c5fd;">"Hello, GPOS Lite!"</span>; <span style="color:#64748b;">// 0123456789</span></code>
           </div>
           <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);font-family:var(--font-mono);">'JetBrains Mono', 'Courier New', monospace</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 1.5: Interactive Font Tester ────────────────── -->
+    <section id="section-tester" style="margin-bottom:var(--spacing-12);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-5);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="section-chip" style="background:var(--gpl-purple-50);color:var(--gpl-purple-300);border-color:rgba(110,62,246,.18);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Live Preview
+        </span>
+        <h2 style="margin:0;">Interactive Font Tester</h2>
+        <span style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:9999px;background:var(--gpl-purple-50);color:var(--gpl-purple-300);border:1px solid rgba(110,62,246,.2);">New</span>
+      </div>
+      <div style="margin:0 var(--spacing-10) var(--spacing-4);">
+        <p style="color:var(--text-2);font-size:var(--font-size-sm);margin:0;line-height:1.6;">Ketik teks kamu dan pilih kombinasi ukuran, weight, serta line height untuk melihat tampilannya secara real-time.</p>
+      </div>
+
+      <div style="margin:0 var(--spacing-10);">
+        <div class="font-tester">
+          <!-- Controls -->
+          <div class="font-tester-controls">
+            <div class="tester-group">
+              <span class="tester-label">Size</span>
+              <select class="tester-select" id="testerSize" aria-label="Pilih font size">
+                <option value="12px">12px · XS</option>
+                <option value="14px">14px · SM</option>
+                <option value="16px" selected>16px · Base</option>
+                <option value="18px">18px · LG</option>
+                <option value="20px">20px · XL</option>
+                <option value="24px">24px · 2XL</option>
+                <option value="30px">30px · 3XL</option>
+                <option value="36px">36px · 4XL</option>
+                <option value="48px">48px · 5XL</option>
+              </select>
+            </div>
+            <div class="tester-group">
+              <span class="tester-label">Weight</span>
+              <select class="tester-select" id="testerWeight" aria-label="Pilih font weight">
+                <option value="300">Light · 300</option>
+                <option value="400" selected>Normal · 400</option>
+                <option value="500">Medium · 500</option>
+                <option value="600">SemiBold · 600</option>
+                <option value="700">Bold · 700</option>
+              </select>
+            </div>
+            <div class="tester-group">
+              <span class="tester-label">Leading</span>
+              <select class="tester-select" id="testerLineHeight" aria-label="Pilih line height">
+                <option value="1.2">Tight · 1.2</option>
+                <option value="1.375">Snug · 1.375</option>
+                <option value="1.5" selected>Normal · 1.5</option>
+                <option value="1.625">Relaxed · 1.625</option>
+                <option value="2">Loose · 2.0</option>
+              </select>
+            </div>
+            <div class="tester-group">
+              <span class="tester-label">Font</span>
+              <select class="tester-select" id="testerFont" aria-label="Pilih font family">
+                <option value="'Poppins', sans-serif">Poppins</option>
+                <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+              </select>
+            </div>
+            <button class="tester-reset-btn" onclick="resetFontTester()" aria-label="Reset ke default">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              Reset
+            </button>
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="tester-presets">
+            <span style="font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-right:4px;align-self:center;">Presets:</span>
+            <button class="preset-btn active" onclick="applyPreset(this,'16px','400','1.5',&quot;'Poppins', sans-serif&quot;)" aria-label="Preset Body">Body</button>
+            <button class="preset-btn" onclick="applyPreset(this,'36px','700','1.2',&quot;'Poppins', sans-serif&quot;)" aria-label="Preset Heading H1">H1 Heading</button>
+            <button class="preset-btn" onclick="applyPreset(this,'24px','600','1.375',&quot;'Poppins', sans-serif&quot;)" aria-label="Preset Heading H2">H2 Section</button>
+            <button class="preset-btn" onclick="applyPreset(this,'12px','400','1.5',&quot;'Poppins', sans-serif&quot;)" aria-label="Preset Caption">Caption</button>
+            <button class="preset-btn" onclick="applyPreset(this,'20px','500','1.375',&quot;'Poppins', sans-serif&quot;)" aria-label="Preset Label">Label / Title</button>
+            <button class="preset-btn" onclick="applyPreset(this,'14px','400','1.5',&quot;'JetBrains Mono', monospace&quot;)" aria-label="Preset Code">Code</button>
+            <button class="preset-btn" onclick="applyPreset(this,'48px','700','1.2',&quot;'Poppins', sans-serif&quot;)" aria-label="Preset Display">Display</button>
+          </div>
+
+          <!-- Live Preview Area -->
+          <div
+            id="fontTesterPreview"
+            class="font-tester-preview"
+            contenteditable="true"
+            spellcheck="false"
+            aria-label="Area preview — klik untuk mengedit teks"
+            style="font-size:16px;font-weight:400;line-height:1.5;font-family:'Poppins',sans-serif;"
+          >Bermain kata adalah passion ku</div>
+
+          <!-- Footer info -->
+          <div class="tester-footer">
+            <span id="testerInfo" class="tester-info-badge">16px · weight 400 · leading 1.5 · Poppins</span>
+            <span style="font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:4px;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Klik teks di atas untuk edit
+            </span>
+          </div>
         </div>
       </div>
     </section>
@@ -1476,7 +1758,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 GPOS Lite Design System V 2.0 &mdash; Maintained with &#10084;&#65039;</p>
+        <p>&copy; 2025 GPOS Lite Design System V 2.0 &mdash; Maintained with &#10084;&#65039;</p>
       </div>
     </footer>
 
@@ -1568,6 +1850,113 @@
       });
     });
   });
+
+  /* ─── Scroll progress bar ───────────────────────────────────── */
+  var progressBar = document.getElementById('scrollProgress');
+  if (main && progressBar) {
+    main.addEventListener('scroll', function () {
+      var scrolled = main.scrollTop / (main.scrollHeight - main.clientHeight);
+      progressBar.style.width = Math.min(100, Math.max(0, scrolled * 100)) + '%';
+    }, { passive: true });
+  }
+
+  /* ─── Card reveal on scroll (IntersectionObserver) ──────────── */
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry, i) {
+        if (entry.isIntersecting) {
+          var delay = (entry.target.dataset.revealDelay || 0);
+          setTimeout(function () {
+            entry.target.classList.add('visible');
+          }, delay);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+    document.querySelectorAll('.scale-card').forEach(function (card, i) {
+      card.classList.add('reveal-card');
+      card.dataset.revealDelay = Math.min(i % 5 * 60, 240);
+      revealObserver.observe(card);
+    });
+  }
+
+  /* ─── Animated stat counters ─────────────────────────────────── */
+  if ('IntersectionObserver' in window) {
+    var statsBar = document.querySelector('[data-stats-bar]');
+    if (statsBar) {
+      var countersAnimated = false;
+      var statsObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !countersAnimated) {
+            countersAnimated = true;
+            statsBar.querySelectorAll('.stat-number[data-count]').forEach(function (el, i) {
+              var target = parseInt(el.dataset.count, 10);
+              var duration = 900;
+              var startTime = null;
+              setTimeout(function () {
+                function step(timestamp) {
+                  if (!startTime) startTime = timestamp;
+                  var progress = Math.min((timestamp - startTime) / duration, 1);
+                  var eased = 1 - Math.pow(1 - progress, 3);
+                  el.textContent = Math.round(eased * target);
+                  if (progress < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+              }, i * 100);
+            });
+            statsObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      statsObserver.observe(statsBar);
+    }
+  }
+
+  /* ─── Interactive Font Tester ────────────────────────────────── */
+  function updateFontTester() {
+    var preview = document.getElementById('fontTesterPreview');
+    if (!preview) return;
+    var size   = document.getElementById('testerSize').value;
+    var weight = document.getElementById('testerWeight').value;
+    var lh     = document.getElementById('testerLineHeight').value;
+    var font   = document.getElementById('testerFont').value;
+    preview.style.fontSize   = size;
+    preview.style.fontWeight = weight;
+    preview.style.lineHeight = lh;
+    preview.style.fontFamily = font;
+    var info = document.getElementById('testerInfo');
+    if (info) {
+      var fontName = font.includes('Poppins') ? 'Poppins' : 'JetBrains Mono';
+      info.textContent = size + ' · weight ' + weight + ' · leading ' + lh + ' · ' + fontName;
+    }
+  }
+
+  ['testerSize','testerWeight','testerLineHeight','testerFont'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('change', updateFontTester);
+  });
+
+  function resetFontTester() {
+    document.getElementById('testerSize').value       = '16px';
+    document.getElementById('testerWeight').value     = '400';
+    document.getElementById('testerLineHeight').value = '1.5';
+    document.getElementById('testerFont').value       = "'Poppins', sans-serif";
+    updateFontTester();
+    document.querySelectorAll('.preset-btn').forEach(function (b) { b.classList.remove('active'); });
+    var first = document.querySelector('.preset-btn');
+    if (first) first.classList.add('active');
+  }
+
+  function applyPreset(btn, size, weight, lh, font) {
+    document.getElementById('testerSize').value       = size;
+    document.getElementById('testerWeight').value     = weight;
+    document.getElementById('testerLineHeight').value = lh;
+    document.getElementById('testerFont').value       = font;
+    updateFontTester();
+    document.querySelectorAll('.preset-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
 
   /* ─── Copy code ──────────────────────────────────────────────── */
   function copyCode(btn, id) {
