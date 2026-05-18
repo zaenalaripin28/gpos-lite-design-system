@@ -5,368 +5,1338 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typography - Design System GPOS Lite V 2.0</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: ['selector', '[data-theme="dark"]'],
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50:  'var(--color-primary-50)',
+                100: 'var(--color-primary-100)',
+                200: 'var(--color-primary-200)',
+                300: 'var(--color-primary-300)',
+                400: 'var(--color-primary-400)',
+                500: 'var(--color-primary-500)',
+                600: 'var(--color-primary-600)',
+                700: 'var(--color-primary-700)',
+              },
+            },
+            fontFamily: {
+              sans: ['Poppins', '-apple-system', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      /* ─── CSS Variable Bridges ──────────────────────────────── */
+      :root {
+        --bg-surface:  var(--color-gray-50);
+        --bg-subtle:   var(--color-gray-100);
+        --border:      var(--color-gray-200);
+        --text-1:      var(--color-gray-900);
+        --text-2:      var(--color-gray-600);
+        --text-3:      var(--color-gray-400);
+        --radius-sm:   4px;
+        --radius-md:   6px;
+        --radius-lg:   10px;
+        --radius-xl:   14px;
+        --radius-2xl:  20px;
+        --radius-full: 9999px;
+        --font-sans:   'Poppins', -apple-system, sans-serif;
+        --font-mono:   'JetBrains Mono', 'Courier New', monospace;
+      }
+      [data-theme="dark"] {
+        --color-background:        #0f172a;
+        --bg-surface:              #1e293b;
+        --bg-subtle:               #334155;
+        --border:                  #334155;
+        --text-1:                  #f1f5f9;
+        --text-2:                  #94a3b8;
+        --text-3:                  #64748b;
+        --color-text-primary:      #f1f5f9;
+        --color-text-secondary:    #94a3b8;
+        --color-border-light:      #334155;
+      }
+
+      body { font-family: var(--font-sans); }
+
+      /* ─── Layout ─────────────────────────────────────────────── */
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar: make it a flex column so footer can push to bottom */
+      .sidebar {
+        display: flex !important;
+        flex-direction: column;
+      }
+      .nav-menu { flex: 1; }
+
+      /* ─── Sidebar Overlay ────────────────────────────────────── */
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 40;
+        backdrop-filter: blur(2px);
+      }
+      .sidebar-overlay.active { display: block; }
+
+      /* ─── Desktop reopen tab ─────────────────────────────────── */
+      .sidebar-reopen-tab {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 30;
+        background: var(--color-primary-600);
+        color: white;
+        border: none;
+        border-radius: 0 6px 6px 0;
+        width: 24px;
+        height: 48px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-md);
+        transition: all 150ms ease;
+      }
+      .sidebar-reopen-tab:hover { width: 28px; background: var(--color-primary-700); }
+      .layout.sidebar-collapsed .sidebar-reopen-tab { display: flex; }
+
+      /* ─── Logo components ────────────────────────────────────── */
+      .logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(135deg, var(--color-primary-500), var(--color-secondary-500));
+        color: white;
+        font-weight: 800;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .logo-icon.sm {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+        border-radius: 4px;
+      }
+
+      /* ─── Sidebar action buttons ─────────────────────────────── */
+      .sidebar-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .sidebar-collapse-btn,
+      .sidebar-close {
+        background: transparent;
+        border: none;
+        color: var(--color-gray-400);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 150ms ease;
+      }
+      .sidebar-collapse-btn:hover,
+      .sidebar-close:hover { background: var(--color-gray-700); color: white; }
+      .sidebar-close { display: none; }
+
+      /* ─── Nav icons ──────────────────────────────────────────── */
+      .nav-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        opacity: 0.65;
+      }
+      .nav-link {
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+      }
+      .nav-link.active,
+      .nav-link[aria-current="page"] {
+        color: var(--color-primary-400) !important;
+        background-color: var(--color-gray-800) !important;
+      }
+      .nav-link.active .nav-icon,
+      .nav-link[aria-current="page"] .nav-icon { opacity: 1; }
+
+      /* ─── Sidebar footer ─────────────────────────────────────── */
+      .sidebar-footer {
+        padding-top: var(--spacing-6);
+        border-top: 1px solid var(--color-gray-800);
+        margin-top: var(--spacing-6);
+      }
+      .dark-mode-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: var(--spacing-2) var(--spacing-3);
+        border-radius: var(--border-radius-md);
+        background: transparent;
+        border: 1px solid var(--color-gray-700);
+        color: var(--color-gray-300);
+        font-size: var(--font-size-sm);
+        cursor: pointer;
+        transition: all 150ms ease;
+      }
+      .dark-mode-toggle:hover { background: var(--color-gray-800); color: white; }
+      .toggle-icon::before { content: '🌙'; }
+      [data-theme="dark"] .toggle-icon::before { content: '☀️'; }
+
+      /* ─── Mobile Topbar ──────────────────────────────────────── */
+      .topbar {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-3) var(--spacing-4);
+        background: var(--color-gray-900);
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        box-shadow: var(--shadow-md);
+      }
+      .topbar-title { font-weight: 600; font-size: var(--font-size-sm); }
+      .hamburger {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 4px;
+        border-radius: 4px;
+      }
+      .hamburger:hover { background: var(--color-gray-800); }
+      .topbar-theme {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 4px;
+        border-radius: 4px;
+      }
+      .topbar-theme:hover { background: var(--color-gray-800); }
+      .topbar-theme::before { content: '🌙'; }
+      [data-theme="dark"] .topbar-theme::before { content: '☀️'; }
+
+      /* ─── Mobile responsive ──────────────────────────────────── */
+      @media (max-width: 768px) {
+        .topbar { display: flex; }
+        .sidebar {
+          position: fixed !important;
+          left: -280px !important;
+          top: 0;
+          height: 100vh;
+          z-index: 50;
+          transition: left 300ms ease;
+          overflow-y: auto;
+        }
+        .sidebar.open { left: 0 !important; }
+        .sidebar-close { display: flex !important; }
+        .sidebar-collapse-btn { display: none; }
+        .sidebar-reopen-tab { display: none !important; }
+        .main-content { margin-left: 0 !important; }
+      }
+
+      /* ─── Desktop sidebar collapse ───────────────────────────── */
+      .layout.sidebar-collapsed .sidebar {
+        width: 0;
+        padding: 0;
+        overflow: hidden;
+        min-width: 0;
+      }
+      .layout.sidebar-collapsed .main-content { margin-left: 0 !important; }
+
+      /* ─── tw-badge ───────────────────────────────────────────── */
+      .tw-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px;
+        border-radius: var(--radius-full);
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 500;
+        background-color: var(--color-primary-100);
+        color: var(--color-primary-700);
+        white-space: nowrap;
+      }
+      [data-theme="dark"] .tw-badge {
+        background-color: rgba(99,102,241,0.18);
+        color: var(--color-primary-300);
+      }
+
+      /* ─── Scale cards ────────────────────────────────────────── */
+      .scale-card {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-4);
+        padding: var(--spacing-4) var(--spacing-6);
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        transition: box-shadow 200ms ease, border-color 200ms ease, transform 150ms ease;
+      }
+      .scale-card:hover {
+        border-color: var(--color-primary-400);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      /* ─── Code blocks ────────────────────────────────────────── */
+      .code-block {
+        background-color: #0f172a;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        line-height: 1.7;
+      }
+      .code-block-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+        background-color: #1e293b;
+        border-bottom: 1px solid #334155;
+      }
+      .code-block pre {
+        padding: 16px;
+        overflow-x: auto;
+        color: #e2e8f0;
+        margin: 0;
+        background: transparent;
+        border-radius: 0;
+        font-size: 0.8125rem;
+      }
+      .code-token-var     { color: #93c5fd; }
+      .code-token-value   { color: #86efac; }
+      .code-token-comment { color: #64748b; font-style: italic; }
+      .code-token-prop    { color: #f9a8d4; }
+      .code-token-sel     { color: #fde68a; }
+
+      /* ─── Copy button ────────────────────────────────────────── */
+      .copy-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        border-radius: var(--radius-md);
+        font-size: 0.72rem;
+        font-weight: 500;
+        cursor: pointer;
+        background: rgba(255,255,255,0.08);
+        color: #94a3b8;
+        border: 1px solid #334155;
+        transition: background 150ms ease, color 150ms ease;
+      }
+      .copy-btn:hover { background: rgba(99,102,241,0.25); color: #c7d2fe; }
+      .copy-btn.copied { color: #86efac; background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.3); }
+
+      /* ─── Tab nav ────────────────────────────────────────────── */
+      .tab-nav {
+        display: flex;
+        gap: 4px;
+        border-bottom: 2px solid var(--border);
+        margin-bottom: var(--spacing-6);
+      }
+      .tab-btn {
+        padding: var(--spacing-2) var(--spacing-4);
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        color: var(--text-2);
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+        transition: color 150ms ease, border-color 150ms ease;
+        font-family: var(--font-sans);
+      }
+      .tab-btn.active { color: var(--color-primary-600); border-bottom-color: var(--color-primary-600); }
+      .tab-btn:hover:not(.active) { color: var(--text-1); background-color: var(--bg-subtle); }
+      .tab-pane { display: none; }
+      .tab-pane.active { display: block; }
+
+      /* ─── Do / Don't cards ───────────────────────────────────── */
+      .guide-do {
+        background-color: var(--color-success-50);
+        border: 1px solid #bbf7d0;
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-6);
+      }
+      .guide-dont {
+        background-color: var(--color-error-50);
+        border: 1px solid #fecaca;
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-6);
+      }
+      [data-theme="dark"] .guide-do  { background-color: rgba(34,197,94,0.07); border-color: rgba(34,197,94,0.2); }
+      [data-theme="dark"] .guide-dont { background-color: rgba(239,68,68,0.07); border-color: rgba(239,68,68,0.2); }
+      .guide-do h3   { color: #16a34a; margin-bottom: var(--spacing-3); }
+      .guide-dont h3 { color: #dc2626; margin-bottom: var(--spacing-3); }
+      [data-theme="dark"] .guide-do h3   { color: #4ade80; }
+      [data-theme="dark"] .guide-dont h3 { color: #f87171; }
+
+      /* ─── Section chip ───────────────────────────────────────── */
+      .section-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        background-color: var(--color-primary-50);
+        color: var(--color-primary-600);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-semibold);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: var(--spacing-3);
+      }
+      [data-theme="dark"] .section-chip {
+        background-color: rgba(99,102,241,0.15);
+        color: var(--color-primary-300);
+      }
+
+      /* ─── Footer ─────────────────────────────────────────────── */
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: var(--spacing-4);
+        margin-bottom: var(--spacing-4);
+      }
+      .footer-brand { display: flex; flex-direction: column; gap: 4px; }
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        color: var(--text-1);
+        font-size: var(--font-size-sm);
+      }
+      .footer-brand p { font-size: var(--font-size-xs); color: var(--text-3); margin: 0; }
+      .footer-links { display: flex; gap: var(--spacing-4); flex-wrap: wrap; }
+      .footer-links a {
+        font-size: var(--font-size-xs);
+        color: var(--text-2);
+        text-decoration: none;
+        transition: color 150ms ease;
+      }
+      .footer-links a:hover { color: var(--color-primary-500); text-decoration: none; }
+      .footer-bottom {
+        text-align: center;
+        font-size: var(--font-size-xs);
+        color: var(--text-3);
+        border-top: 1px solid var(--border);
+        padding-top: var(--spacing-4);
+      }
+      .footer-bottom p { margin: 0; color: var(--text-3); }
+
+      /* ─── Scroll to top ──────────────────────────────────────── */
+      .scroll-to-top {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 40px;
+        height: 40px;
+        background: var(--color-primary-600);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-lg);
+        transition: all 150ms ease;
+        z-index: 90;
+      }
+      .scroll-to-top:hover { background: var(--color-primary-700); transform: translateY(-2px); }
+      .scroll-to-top.visible { display: flex; }
+
+      /* ─── Responsive ─────────────────────────────────────────── */
+      @media (max-width: 640px) {
+        .scale-card { padding: var(--spacing-3) var(--spacing-4); flex-wrap: wrap; }
+        .footer-inner { flex-direction: column; }
+      }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h1 class="logo">GPOS Lite</h1>
-                <p class="version">Design System V2.0</p>
-            </div>
 
-            <nav class="nav-menu">
-                <div class="nav-section">
-                    <h3 class="nav-title">Foundations</h3>
-                    <ul class="nav-list">
-                        <li><a href="../index.html" class="nav-link">Home</a></li>
-                        <li><a href="colors.html" class="nav-link">Colors</a></li>
-                        <li><a href="typography.html" class="nav-link" style="color: var(--color-primary-400);">Typography</a></li>
-                        <li><a href="spacing.html" class="nav-link">Spacing</a></li>
-                        <li><a href="shadows.html" class="nav-link">Shadows</a></li>
-                        <li><a href="borders.html" class="nav-link">Borders & Radius</a></li>
-                        <li><a href="grid.html" class="nav-link">Grid & Layout</a></li>
-                    </ul>
-                </div>
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-                <div class="nav-section">
-                    <h3 class="nav-title">Components</h3>
-                    <ul class="nav-list">
-                        <li><a href="components.html" class="nav-link">Component Library</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </aside>
+<!-- Desktop reopen tab -->
+<button class="sidebar-reopen-tab" id="sidebarReopenTab" aria-label="Buka sidebar">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+</button>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="page-header">
-                <h1>Typography</h1>
-                <p class="subtitle">Font families, sizes, weights, dan line heights untuk hierarchy dan readability</p>
-            </header>
+<div class="layout" id="layout">
 
-            <!-- Overview -->
-            <section>
-                <h2>Typography Principles</h2>
-                <div class="guide-section">
-                    <h3>Design Goals</h3>
-                    <ul style="margin: var(--spacing-4) 0; padding-left: var(--spacing-6);">
-                        <li><strong>Clarity:</strong> Teks harus mudah dibaca di semua ukuran</li>
-                        <li><strong>Hierarchy:</strong> Ukuran, weight, dan color membedakan konten penting</li>
-                        <li><strong>Consistency:</strong> Gunakan hanya typography scale yang telah ditentukan</li>
-                        <li><strong>Accessibility:</strong> Minimum font size 14px untuk body text, contrast ratio memenuhi WCAG AA</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Font Families -->
-            <section>
-                <h2>Font Families</h2>
-
-                <div class="guide-section">
-                    <h3>Primary Font - System Stack</h3>
-                    <p><code>-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif</code></p>
-                    <p style="margin-bottom: var(--spacing-2); color: var(--color-text-secondary);">Gunakan untuk semua body text, labels, dan paragraf</p>
-                    <div style="padding: var(--spacing-4); background-color: white; border-radius: var(--border-radius-md); border: 1px solid var(--color-border-light);">
-                        <p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; font-size: var(--font-size-lg);">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789</p>
-                    </div>
-
-                    <div class="guide-section" style="margin-top: var(--spacing-6);">
-                        <h4>✅ Usage</h4>
-                        <ul style="margin: var(--spacing-4) 0; padding-left: var(--spacing-6);">
-                            <li>Body text dan paragraf</li>
-                            <li>Labels dan form inputs</li>
-                            <li>Navigation dan menus</li>
-                            <li>Semua UI text kecuali special cases</li>
-                        </ul>
-                    </div>
-
-                    <div class="guide-section">
-                        <h4>Tailwind CSS Utilities</h4>
-                        <pre><code>&lt;p class="font-sans"&gt;Body text&lt;/p&gt;</code></pre>
-                    </div>
-                </div>
-
-                <div class="guide-section">
-                    <h3>Monospace Font</h3>
-                    <p><code>Courier New, monospace</code></p>
-                    <p style="margin-bottom: var(--spacing-2); color: var(--color-text-secondary);">Gunakan untuk code, technical content, dan fixed-width display</p>
-                    <div style="padding: var(--spacing-4); background-color: var(--color-gray-900); border-radius: var(--border-radius-md); color: #f8f8f2;">
-                        <code style="background: none; padding: 0; color: inherit; font-size: var(--font-size-base);">const greeting = "Hello World";</code>
-                    </div>
-
-                    <div class="guide-section" style="margin-top: var(--spacing-6);">
-                        <h4>✅ Usage</h4>
-                        <ul style="margin: var(--spacing-4) 0; padding-left: var(--spacing-6);">
-                            <li>Code blocks dan snippets</li>
-                            <li>Variables dan technical terms</li>
-                            <li>IDs dan unique identifiers</li>
-                            <li>Console output</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Font Sizes -->
-            <section>
-                <h2>Font Sizes</h2>
-                <p>Skala 9 levels dari 12px hingga 48px dengan spacing yang konsisten.</p>
-
-                <div style="display: grid; gap: var(--spacing-4); margin-bottom: var(--spacing-8);">
-                    <!-- XS -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-primary);">Extra Small</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-xs / 12px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-xs</code>
-                        </div>
-                    </div>
-
-                    <!-- SM -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-sm); margin: 0; color: var(--color-text-primary);">Small</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-sm / 14px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-sm</code>
-                        </div>
-                    </div>
-
-                    <!-- Base -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-base); margin: 0; color: var(--color-text-primary);">Base</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-base / 16px (default)</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-base</code>
-                        </div>
-                    </div>
-
-                    <!-- LG -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-lg); margin: 0; color: var(--color-text-primary);">Large</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-lg / 18px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-lg</code>
-                        </div>
-                    </div>
-
-                    <!-- XL -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-xl); margin: 0; color: var(--color-text-primary);">Extra Large</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-xl / 20px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-xl</code>
-                        </div>
-                    </div>
-
-                    <!-- 2XL -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-2xl); margin: 0; color: var(--color-text-primary);">2XL</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-2xl / 24px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-2xl</code>
-                        </div>
-                    </div>
-
-                    <!-- 3XL -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-3xl); margin: 0; color: var(--color-text-primary);">3XL</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-3xl / 30px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-3xl</code>
-                        </div>
-                    </div>
-
-                    <!-- 4XL -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-4xl); margin: 0; color: var(--color-text-primary);">4XL</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-4xl / 36px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-4xl</code>
-                        </div>
-                    </div>
-
-                    <!-- 5XL -->
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <p style="font-size: var(--font-size-5xl); margin: 0; color: var(--color-text-primary);">5XL</p>
-                                <p style="font-size: var(--font-size-xs); margin: 0; color: var(--color-text-secondary);">--font-size-5xl / 48px</p>
-                            </div>
-                            <code style="font-size: var(--font-size-xs);">text-5xl</code>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Font Weights -->
-            <section>
-                <h2>Font Weights</h2>
-
-                <div style="display: grid; gap: var(--spacing-4); margin-bottom: var(--spacing-8);">
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="font-weight: 300; font-size: var(--font-size-lg); margin: 0;">Light (300) - --font-weight-light</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin: 0;">Untuk text yang kurang penting atau subtle</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="font-weight: 400; font-size: var(--font-size-lg); margin: 0;">Normal (400) - --font-weight-normal</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin: 0;">Default weight untuk body text</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="font-weight: 500; font-size: var(--font-size-lg); margin: 0;">Medium (500) - --font-weight-medium</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin: 0;">Untuk labels dan secondary headings</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="font-weight: 600; font-size: var(--font-size-lg); margin: 0;">Semibold (600) - --font-weight-semibold</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin: 0;">Untuk subheadings dan emphasis</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="font-weight: 700; font-size: var(--font-size-lg); margin: 0;">Bold (700) - --font-weight-bold</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin: 0;">Untuk headings dan strong emphasis</p>
-                    </div>
-                </div>
-
-                <div class="guide-section">
-                    <h3>✅ Usage Guidelines</h3>
-                    <ul style="margin: var(--spacing-4) 0; padding-left: var(--spacing-6);">
-                        <li><strong>H1-H6:</strong> Gunakan font-weight-bold (700)</li>
-                        <li><strong>Labels:</strong> Gunakan font-weight-medium (500)</li>
-                        <li><strong>Body text:</strong> Gunakan font-weight-normal (400)</li>
-                        <li><strong>Secondary text:</strong> Gunakan font-weight-normal (400) + gray-500 color</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Line Heights -->
-            <section>
-                <h2>Line Heights</h2>
-                <p>Spacing vertikal antara baris teks untuk readability yang optimal.</p>
-
-                <div style="display: grid; gap: var(--spacing-4); margin-bottom: var(--spacing-8);">
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="line-height: 1.2; margin: 0;">Tight (1.2) - --line-height-tight<br>Gunakan untuk headings dan subheadings</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: var(--spacing-2); margin-bottom: 0;">Cocok untuk text yang singkat dan besar</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="line-height: 1.375; margin: 0;">Snug (1.375) - --line-height-snug<br>Good untuk smaller headings dan labels</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: var(--spacing-2); margin-bottom: 0;">Balanced spacing untuk readability</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="line-height: 1.5; margin: 0;">Normal (1.5) - --line-height-normal<br>Default untuk body text dan paragraf. Memberikan readability optimal.</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: var(--spacing-2); margin-bottom: 0;">Recommended untuk kebanyakan use case</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="line-height: 1.625; margin: 0;">Relaxed (1.625) - --line-height-relaxed<br>Untuk long-form content dan documentation.</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: var(--spacing-2); margin-bottom: 0;">Extra spacing untuk ease of reading</p>
-                    </div>
-
-                    <div style="padding: var(--spacing-4); background-color: white; border: 1px solid var(--color-border-light); border-radius: var(--border-radius-md);">
-                        <p style="line-height: 2; margin: 0;">Loose (2) - --line-height-loose<br>Maximum spacing antara lines.</p>
-                        <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: var(--spacing-2); margin-bottom: 0;">Gunakan hanya untuk special cases</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Text Styles -->
-            <section>
-                <h2>Predefined Text Styles</h2>
-
-                <div class="guide-section">
-                    <h3>Heading Styles</h3>
-                    <pre><code>&lt;!-- H1 Styles --&gt;
-.text-h1 {
-  font-size: var(--font-size-4xl); /* 36px */
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-  color: var(--color-text-primary);
-}
-
-&lt;!-- H2 Styles --&gt;
-.text-h2 {
-  font-size: var(--font-size-3xl); /* 30px */
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-}</code></pre>
-                </div>
-
-                <div class="guide-section">
-                    <h3>Body Text Styles</h3>
-                    <pre><code>&lt;!-- Body Large --&gt;
-.text-body-lg {
-  font-size: var(--font-size-lg); /* 18px */
-  line-height: var(--line-height-normal);
-}
-
-&lt;!-- Body Base (default) --&gt;
-.text-body-base {
-  font-size: var(--font-size-base); /* 16px */
-  line-height: var(--line-height-normal);
-}
-
-&lt;!-- Body Small --&gt;
-.text-body-sm {
-  font-size: var(--font-size-sm); /* 14px */
-  line-height: var(--line-height-normal);
-}</code></pre>
-                </div>
-            </section>
-
-            <!-- Best Practices -->
-            <section>
-                <h2>Best Practices</h2>
-                <div class="guide-section">
-                    <h3>✅ Do</h3>
-                    <ul style="margin: var(--spacing-4) 0; padding-left: var(--spacing-6);">
-                        <li>Gunakan scale yang telah ditentukan, jangan buat custom sizes</li>
-                        <li>Maintain font-size dan line-height yang sesuai untuk readability (minimum 14px untuk body)</li>
-                        <li>Gunakan semantic HTML tags (h1-h6, p, strong, em)</li>
-                        <li>Test readability pada dark dan light backgrounds</li>
-                        <li>Ensure contrast ratio memenuhi WCAG AA (4.5:1 untuk normal text)</li>
-                    </ul>
-                </div>
-
-                <div class="guide-section">
-                    <h3>❌ Don't</h3>
-                    <ul style="margin: var(--spacing-4) 0; padding-left: var(--spacing-6);">
-                        <li>Jangan buat custom font sizes - gunakan scale yang ada</li>
-                        <li>Jangan gunakan font size kurang dari 12px untuk body text</li>
-                        <li>Jangan mix font families dalam single component</li>
-                        <li>Jangan gunakan text decoration lain dari underline untuk links</li>
-                        <li>Jangan skip line-height untuk readability</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Footer -->
-            <footer class="page-footer">
-                <p>&copy; 2024 GPOS Lite Design System V 2.0 | Maintained with ❤️</p>
-            </footer>
-        </main>
+  <!-- ─── Sidebar ─────────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-wrap">
+        <div class="logo-icon">G</div>
+        <div>
+          <h1 class="logo">GPOS Lite</h1>
+          <p class="version">Design System V2.0</p>
+        </div>
+      </div>
+      <div class="sidebar-actions">
+        <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar" title="Collapse sidebar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Tutup menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
     </div>
 
-    <script src="../js/script.js"></script>
+    <nav class="nav-menu" role="navigation" aria-label="Navigasi utama">
+      <div class="nav-section">
+        <h3 class="nav-title">Foundations</h3>
+        <ul class="nav-list">
+          <li>
+            <a href="../index.html" class="nav-link">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="colors.html" class="nav-link">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 1 0 7 7"/></svg></span>
+              Colors
+            </a>
+          </li>
+          <li>
+            <a href="typography.html" class="nav-link active" aria-current="page">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span>
+              Typography
+            </a>
+          </li>
+          <li>
+            <a href="spacing.html" class="nav-link">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg></span>
+              Spacing
+            </a>
+          </li>
+          <li>
+            <a href="shadows.html" class="nav-link">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span>
+              Shadows
+            </a>
+          </li>
+          <li>
+            <a href="borders.html" class="nav-link">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="6"/></svg></span>
+              Borders &amp; Radius
+            </a>
+          </li>
+          <li>
+            <a href="grid.html" class="nav-link">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+              Grid &amp; Layout
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="nav-section">
+        <h3 class="nav-title">Components</h3>
+        <ul class="nav-list">
+          <li>
+            <a href="components.html" class="nav-link">
+              <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="2" y="15" width="6" height="6" rx="1"/><rect x="14" y="3" width="8" height="6" rx="1"/><rect x="14" y="15" width="8" height="6" rx="1"/></svg></span>
+              Component Library
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        <span class="toggle-icon" id="toggleIcon"></span>
+        <span id="toggleLabel">Dark Mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ─── Main Content ─────────────────────────────────────────── -->
+  <main class="main-content" id="mainContent">
+
+    <!-- Mobile topbar -->
+    <div class="topbar" id="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Buka menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="topbar-title">Typography</span>
+      <button class="topbar-theme" id="topbarTheme" aria-label="Toggle theme"></button>
+    </div>
+
+    <!-- ─── Hero Banner ──────────────────────────────────────────── -->
+    <div style="margin:0 var(--spacing-10) var(--spacing-6);background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);border-radius:var(--border-radius-xl);padding:var(--spacing-10) var(--spacing-12);position:relative;overflow:hidden;display:flex;align-items:center;gap:var(--spacing-10);">
+      <!-- Glow blobs -->
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;width:220px;height:220px;background:#6366f1;border-radius:50%;filter:blur(70px);opacity:0.35;top:-50px;right:160px;"></div>
+        <div style="position:absolute;width:160px;height:160px;background:#a855f7;border-radius:50%;filter:blur(65px);opacity:0.3;bottom:-30px;right:40px;"></div>
+      </div>
+      <!-- Text -->
+      <div style="position:relative;z-index:1;flex:1;">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);backdrop-filter:blur(4px);color:rgba(255,255,255,.85);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;padding:5px 12px;border-radius:9999px;border:1px solid rgba(255,255,255,.15);margin-bottom:var(--spacing-4);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          Typography Foundation
+        </div>
+        <h1 style="font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:800;color:white;line-height:1.1;margin:0 0 var(--spacing-3);letter-spacing:-.025em;">Typography <span style="background:linear-gradient(135deg,#a5b4fc 0%,#e879f9 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">System</span></h1>
+        <p style="color:rgba(255,255,255,.7);font-size:14px;line-height:1.65;margin:0;max-width:55ch;">Font families, sizes, weights, dan line heights untuk <strong style="color:rgba(255,255,255,.9);">hierarchy dan readability</strong> yang konsisten. Tersedia sebagai CSS Custom Properties dan Tailwind utility classes.</p>
+      </div>
+      <!-- Stats -->
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;flex-shrink:0;text-align:center;">
+        <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:var(--border-radius-lg);padding:var(--spacing-3) var(--spacing-4);">
+          <div style="color:rgba(255,255,255,.9);font-size:20px;font-weight:700;">9</div>
+          <div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:2px;">Size Scale</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:var(--border-radius-lg);padding:var(--spacing-3) var(--spacing-4);">
+          <div style="color:rgba(255,255,255,.9);font-size:20px;font-weight:700;">5</div>
+          <div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:2px;">Weights</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Stats Bar ─────────────────────────────────────────────── -->
+    <div style="margin:0 var(--spacing-10) var(--spacing-8);display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--border-radius-xl);padding:var(--spacing-4) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-3);box-shadow:var(--shadow-sm);transition:all 200ms ease;" onmouseover="this.style.borderColor='var(--color-primary-300)';this.style.boxShadow='var(--shadow-md)';this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='var(--shadow-sm)';this.style.transform='translateY(0)'">
+        <div style="width:40px;height:40px;border-radius:var(--border-radius-lg);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#EFF6FF;font-size:20px;">✏️</div>
+        <div>
+          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">9</div>
+          <div style="font-size:11px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;">Size Tokens</div>
+        </div>
+      </div>
+      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--border-radius-xl);padding:var(--spacing-4) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-3);box-shadow:var(--shadow-sm);transition:all 200ms ease;" onmouseover="this.style.borderColor='var(--color-primary-300)';this.style.boxShadow='var(--shadow-md)';this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='var(--shadow-sm)';this.style.transform='translateY(0)'">
+        <div style="width:40px;height:40px;border-radius:var(--border-radius-lg);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F5F3FF;font-size:20px;">⚖️</div>
+        <div>
+          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">5</div>
+          <div style="font-size:11px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;">Font Weights</div>
+        </div>
+      </div>
+      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--border-radius-xl);padding:var(--spacing-4) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-3);box-shadow:var(--shadow-sm);transition:all 200ms ease;" onmouseover="this.style.borderColor='var(--color-primary-300)';this.style.boxShadow='var(--shadow-md)';this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='var(--shadow-sm)';this.style.transform='translateY(0)'">
+        <div style="width:40px;height:40px;border-radius:var(--border-radius-lg);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#FFF7ED;font-size:20px;">📏</div>
+        <div>
+          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">5</div>
+          <div style="font-size:11px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;">Line Heights</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Section 1: Font Families ─────────────────────────────── -->
+    <section style="margin-bottom:var(--spacing-12);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="section-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          Families
+        </span>
+        <h2 style="margin:0;">Font Families</h2>
+      </div>
+
+      <!-- Primary Font -->
+      <div style="margin:0 var(--spacing-10) var(--spacing-4);">
+        <div class="scale-card" style="flex-direction:column;align-items:flex-start;gap:var(--spacing-4);">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:var(--spacing-3);">
+            <div>
+              <p style="margin:0;font-weight:700;font-size:var(--font-size-base);color:var(--text-1);">Primary Font — System Stack</p>
+              <code style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-primary-600);background:var(--color-primary-50);padding:2px 8px;border-radius:4px;border:none;">--font-primary</code>
+            </div>
+            <span class="tw-badge">font-sans</span>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-sm);color:var(--text-2);">Digunakan untuk semua body text, labels, navigation, dan form elements</p>
+          <div style="width:100%;padding:var(--spacing-4) var(--spacing-5);background:white;border:1px solid var(--border);border-radius:var(--radius-md);">
+            <p style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;font-size:var(--font-size-lg);color:#1f2937;line-height:1.6;">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789</p>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);font-family:var(--font-mono);">-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif</p>
+        </div>
+      </div>
+
+      <!-- Monospace Font -->
+      <div style="margin:0 var(--spacing-10) var(--spacing-4);">
+        <div class="scale-card" style="flex-direction:column;align-items:flex-start;gap:var(--spacing-4);">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:var(--spacing-3);">
+            <div>
+              <p style="margin:0;font-weight:700;font-size:var(--font-size-base);color:var(--text-1);">Monospace Font</p>
+              <code style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-primary-600);background:var(--color-primary-50);padding:2px 8px;border-radius:4px;border:none;">--font-mono</code>
+            </div>
+            <span class="tw-badge">font-mono</span>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-sm);color:var(--text-2);">Digunakan untuk code blocks, technical content, dan fixed-width display</p>
+          <div style="width:100%;padding:var(--spacing-4) var(--spacing-5);background:#0f172a;border-radius:var(--radius-md);">
+            <code style="font-family:'JetBrains Mono','Courier New',monospace;background:none;padding:0;color:#86efac;font-size:var(--font-size-base);">const greeting = "Hello, GPOS Lite!"; // 0123456789</code>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);font-family:var(--font-mono);">'JetBrains Mono', 'Courier New', monospace</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 2: Font Sizes ─────────────────────────────────── -->
+    <section style="margin-bottom:var(--spacing-12);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="section-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="10" y2="18"/></svg>
+          Size Scale
+        </span>
+        <h2 style="margin:0;">Font Sizes</h2>
+      </div>
+      <div style="margin:0 var(--spacing-10) var(--spacing-4);">
+        <p style="color:var(--text-2);font-size:var(--font-size-sm);margin:0;">9 ukuran dari 12px hingga 48px dengan tangga matematis yang konsisten. Setiap token tersedia sebagai CSS variable <em>dan</em> Tailwind class.</p>
+      </div>
+
+      <div style="margin:var(--spacing-4) var(--spacing-10);display:flex;flex-direction:column;gap:var(--spacing-3);margin-bottom:var(--spacing-8);">
+
+        <!-- xs -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">12px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">0.75rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:12px;color:var(--text-1);font-weight:500;line-height:1.4;">Extra Small — caption, label kecil, metadata</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-xs</p>
+          </div>
+          <span class="tw-badge">text-xs</span>
+        </div>
+
+        <!-- sm -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">14px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">0.875rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:14px;color:var(--text-1);font-weight:500;line-height:1.4;">Small — secondary text, helper, tooltips</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-sm</p>
+          </div>
+          <span class="tw-badge">text-sm</span>
+        </div>
+
+        <!-- base -->
+        <div class="scale-card" style="border-color:var(--color-primary-300);">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">16px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">1rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:16px;color:var(--text-1);font-weight:500;line-height:1.4;">Base — body text utama</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-base</p>
+            <span style="font-size:0.65rem;background:var(--color-primary-100);color:var(--color-primary-700);padding:1px 6px;border-radius:9999px;font-weight:600;">Default</span>
+          </div>
+          <span class="tw-badge">text-base</span>
+        </div>
+
+        <!-- lg -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">18px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">1.125rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:18px;color:var(--text-1);font-weight:500;line-height:1.4;">Large — body besar, intro paragraph</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-lg</p>
+          </div>
+          <span class="tw-badge">text-lg</span>
+        </div>
+
+        <!-- xl -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">20px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">1.25rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:20px;color:var(--text-1);font-weight:500;line-height:1.3;">Extra Large — subheadings, card titles</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-xl</p>
+          </div>
+          <span class="tw-badge">text-xl</span>
+        </div>
+
+        <!-- 2xl -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">24px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">1.5rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:22px;color:var(--text-1);font-weight:600;line-height:1.3;">2XL — section heading</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-2xl</p>
+          </div>
+          <span class="tw-badge">text-2xl</span>
+        </div>
+
+        <!-- 3xl -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">30px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">1.875rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:26px;color:var(--text-1);font-weight:700;line-height:1.2;">3XL — H2 halaman</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-3xl</p>
+          </div>
+          <span class="tw-badge">text-3xl</span>
+        </div>
+
+        <!-- 4xl -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">36px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">2.25rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:30px;color:var(--text-1);font-weight:700;line-height:1.2;">4XL — H1 halaman</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-4xl</p>
+          </div>
+          <span class="tw-badge">text-4xl</span>
+        </div>
+
+        <!-- 5xl -->
+        <div class="scale-card">
+          <div style="min-width:76px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-sm);color:var(--text-1);">48px</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">3rem</p>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="margin:0;font-size:34px;color:var(--text-1);font-weight:800;line-height:1.1;">5XL — hero display</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-size-5xl</p>
+          </div>
+          <span class="tw-badge">text-5xl</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── Section 3: Font Weights ───────────────────────────────── -->
+    <section style="margin-bottom:var(--spacing-12);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="section-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+          Weights
+        </span>
+        <h2 style="margin:0;">Font Weights</h2>
+      </div>
+
+      <div style="margin:0 var(--spacing-10);display:flex;flex-direction:column;gap:var(--spacing-3);margin-bottom:var(--spacing-8);">
+
+        <div class="scale-card">
+          <div style="min-width:100px;">
+            <p style="margin:0;font-weight:300;font-size:var(--font-size-xl);color:var(--text-1);">Light</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">300</p>
+          </div>
+          <div style="flex:1;">
+            <p style="margin:0;font-weight:300;font-size:var(--font-size-base);color:var(--text-1);">Untuk text subtle atau dekoratif</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-weight-light</p>
+          </div>
+          <span class="tw-badge">font-light</span>
+        </div>
+
+        <div class="scale-card">
+          <div style="min-width:100px;">
+            <p style="margin:0;font-weight:400;font-size:var(--font-size-xl);color:var(--text-1);">Normal</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">400</p>
+          </div>
+          <div style="flex:1;">
+            <p style="margin:0;font-weight:400;font-size:var(--font-size-base);color:var(--text-1);">Default weight untuk body text dan paragraf</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-weight-normal</p>
+          </div>
+          <span class="tw-badge">font-normal</span>
+        </div>
+
+        <div class="scale-card" style="border-color:var(--color-primary-300);">
+          <div style="min-width:100px;">
+            <p style="margin:0;font-weight:500;font-size:var(--font-size-xl);color:var(--text-1);">Medium</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">500</p>
+          </div>
+          <div style="flex:1;">
+            <p style="margin:0;font-weight:500;font-size:var(--font-size-base);color:var(--text-1);">Labels, navigation, form elements</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-weight-medium</p>
+            <span style="font-size:0.65rem;background:var(--color-primary-100);color:var(--color-primary-700);padding:1px 6px;border-radius:9999px;font-weight:600;">Common</span>
+          </div>
+          <span class="tw-badge">font-medium</span>
+        </div>
+
+        <div class="scale-card">
+          <div style="min-width:100px;">
+            <p style="margin:0;font-weight:600;font-size:var(--font-size-xl);color:var(--text-1);">Semibold</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">600</p>
+          </div>
+          <div style="flex:1;">
+            <p style="margin:0;font-weight:600;font-size:var(--font-size-base);color:var(--text-1);">Subheadings dan emphasis kuat</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-weight-semibold</p>
+          </div>
+          <span class="tw-badge">font-semibold</span>
+        </div>
+
+        <div class="scale-card">
+          <div style="min-width:100px;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-xl);color:var(--text-1);">Bold</p>
+            <p style="margin:0;font-size:0.68rem;color:var(--text-3);">700</p>
+          </div>
+          <div style="flex:1;">
+            <p style="margin:0;font-weight:700;font-size:var(--font-size-base);color:var(--text-1);">Headings H1–H6 dan strong emphasis</p>
+            <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--font-weight-bold</p>
+          </div>
+          <span class="tw-badge">font-bold</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── Section 4: Line Heights ───────────────────────────────── -->
+    <section style="margin-bottom:var(--spacing-12);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="section-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          Line Heights
+        </span>
+        <h2 style="margin:0;">Line Heights</h2>
+      </div>
+      <div style="margin:0 var(--spacing-10) var(--spacing-4);">
+        <p style="color:var(--text-2);font-size:var(--font-size-sm);margin:0;">Spacing vertikal antar baris untuk readability optimal di berbagai konteks teks.</p>
+      </div>
+
+      <div style="margin:var(--spacing-4) var(--spacing-10);display:flex;flex-direction:column;gap:var(--spacing-3);margin-bottom:var(--spacing-8);">
+
+        <div class="scale-card" style="flex-direction:column;align-items:flex-start;gap:var(--spacing-3);">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-4);">
+            <div>
+              <p style="margin:0;font-weight:700;color:var(--text-1);font-size:var(--font-size-sm);">Tight — 1.2</p>
+              <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--line-height-tight</p>
+            </div>
+            <span class="tw-badge">leading-tight</span>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-base);line-height:1.2;color:var(--text-1);">Untuk headings dan judul singkat<br>yang perlu tampak compact dan padat</p>
+          <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);">Cocok untuk H1, H2, display text</p>
+        </div>
+
+        <div class="scale-card" style="flex-direction:column;align-items:flex-start;gap:var(--spacing-3);">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-4);">
+            <div>
+              <p style="margin:0;font-weight:700;color:var(--text-1);font-size:var(--font-size-sm);">Snug — 1.375</p>
+              <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--line-height-snug</p>
+            </div>
+            <span class="tw-badge">leading-snug</span>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-base);line-height:1.375;color:var(--text-1);">Good untuk smaller headings dan labels<br>yang perlu sedikit lebih airy dari tight</p>
+          <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);">Cocok untuk H3, H4, subheadings</p>
+        </div>
+
+        <div class="scale-card" style="flex-direction:column;align-items:flex-start;gap:var(--spacing-3);border-color:var(--color-primary-300);">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-4);">
+            <div>
+              <p style="margin:0;font-weight:700;color:var(--text-1);font-size:var(--font-size-sm);">Normal — 1.5</p>
+              <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--line-height-normal</p>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <span style="font-size:0.65rem;background:var(--color-primary-100);color:var(--color-primary-700);padding:1px 6px;border-radius:9999px;font-weight:600;">Default</span>
+              <span class="tw-badge">leading-normal</span>
+            </div>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-base);line-height:1.5;color:var(--text-1);">Default untuk semua body text dan paragraf<br>memberikan readability optimal untuk teks panjang</p>
+          <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);">Recommended untuk kebanyakan use case</p>
+        </div>
+
+        <div class="scale-card" style="flex-direction:column;align-items:flex-start;gap:var(--spacing-3);">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-4);">
+            <div>
+              <p style="margin:0;font-weight:700;color:var(--text-1);font-size:var(--font-size-sm);">Relaxed — 1.625</p>
+              <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--line-height-relaxed</p>
+            </div>
+            <span class="tw-badge">leading-relaxed</span>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-base);line-height:1.625;color:var(--text-1);">Untuk long-form content, artikel, dan dokumentasi<br>yang memerlukan ekstra breathing room antar baris</p>
+          <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);">Cocok untuk artikel panjang dan documentation</p>
+        </div>
+
+        <div class="scale-card" style="flex-direction:column;align-items:flex-start;gap:var(--spacing-3);">
+          <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-4);">
+            <div>
+              <p style="margin:0;font-weight:700;color:var(--text-1);font-size:var(--font-size-sm);">Loose — 2.0</p>
+              <p style="margin:0;font-size:0.7rem;font-family:var(--font-mono);color:var(--color-primary-600);">--line-height-loose</p>
+            </div>
+            <span class="tw-badge">leading-loose</span>
+          </div>
+          <p style="margin:0;font-size:var(--font-size-base);line-height:2;color:var(--text-1);">Maximum spacing — hanya untuk special cases<br>seperti pull quotes atau featured callout text</p>
+          <p style="margin:0;font-size:var(--font-size-xs);color:var(--text-3);">Hati-hati: terlalu longgar dapat mengurangi readability</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── Section 5: CSS Variables & Code ──────────────────────── -->
+    <section style="margin-bottom:var(--spacing-12);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:var(--spacing-4);">
+          <span class="section-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Code
+          </span>
+          <h2 style="margin:0;">CSS Variables &amp; Tailwind</h2>
+        </div>
+        <p style="color:var(--text-2);font-size:var(--font-size-sm);margin:0;">Gunakan token langsung via CSS Custom Properties atau melalui Tailwind utility classes. Keduanya mengacu pada nilai yang sama.</p>
+      </div>
+
+      <div class="tab-nav" role="tablist" style="margin:var(--spacing-6) var(--spacing-10);">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="css-var">CSS Variables</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="tailwind">Tailwind Config</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="usage">Usage Examples</button>
+      </div>
+
+      <!-- CSS Variables pane -->
+      <div class="tab-pane active" id="tab-css-var" style="margin:0 var(--spacing-10);">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span style="color:#94a3b8;font-size:0.75rem;font-family:var(--font-mono);">styles.css — :root</span>
+            <button class="copy-btn" onclick="copyCode(this,'code-css-var')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="code-css-var"><code><span class="code-token-sel">:root</span> <span style="color:#e2e8f0;">{</span>
+  <span class="code-token-comment">/* ─── Font Families ─────────────────────────────── */</span>
+  <span class="code-token-prop">--font-primary</span>: <span class="code-token-value">-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif</span>;
+  <span class="code-token-prop">--font-mono</span>:    <span class="code-token-value">'JetBrains Mono', 'Courier New', monospace</span>;
+
+  <span class="code-token-comment">/* ─── Font Sizes ─────────────────────────────────── */</span>
+  <span class="code-token-prop">--font-size-xs</span>:   <span class="code-token-value">0.75rem</span>;    <span class="code-token-comment">/* 12px */</span>
+  <span class="code-token-prop">--font-size-sm</span>:   <span class="code-token-value">0.875rem</span>;   <span class="code-token-comment">/* 14px */</span>
+  <span class="code-token-prop">--font-size-base</span>: <span class="code-token-value">1rem</span>;       <span class="code-token-comment">/* 16px — default */</span>
+  <span class="code-token-prop">--font-size-lg</span>:   <span class="code-token-value">1.125rem</span>;   <span class="code-token-comment">/* 18px */</span>
+  <span class="code-token-prop">--font-size-xl</span>:   <span class="code-token-value">1.25rem</span>;    <span class="code-token-comment">/* 20px */</span>
+  <span class="code-token-prop">--font-size-2xl</span>:  <span class="code-token-value">1.5rem</span>;     <span class="code-token-comment">/* 24px */</span>
+  <span class="code-token-prop">--font-size-3xl</span>:  <span class="code-token-value">1.875rem</span>;   <span class="code-token-comment">/* 30px */</span>
+  <span class="code-token-prop">--font-size-4xl</span>:  <span class="code-token-value">2.25rem</span>;    <span class="code-token-comment">/* 36px */</span>
+  <span class="code-token-prop">--font-size-5xl</span>:  <span class="code-token-value">3rem</span>;       <span class="code-token-comment">/* 48px */</span>
+
+  <span class="code-token-comment">/* ─── Font Weights ───────────────────────────────── */</span>
+  <span class="code-token-prop">--font-weight-light</span>:    <span class="code-token-value">300</span>;
+  <span class="code-token-prop">--font-weight-normal</span>:   <span class="code-token-value">400</span>;
+  <span class="code-token-prop">--font-weight-medium</span>:   <span class="code-token-value">500</span>;
+  <span class="code-token-prop">--font-weight-semibold</span>: <span class="code-token-value">600</span>;
+  <span class="code-token-prop">--font-weight-bold</span>:     <span class="code-token-value">700</span>;
+
+  <span class="code-token-comment">/* ─── Line Heights ───────────────────────────────── */</span>
+  <span class="code-token-prop">--line-height-tight</span>:   <span class="code-token-value">1.2</span>;
+  <span class="code-token-prop">--line-height-snug</span>:    <span class="code-token-value">1.375</span>;
+  <span class="code-token-prop">--line-height-normal</span>:  <span class="code-token-value">1.5</span>;    <span class="code-token-comment">/* default */</span>
+  <span class="code-token-prop">--line-height-relaxed</span>: <span class="code-token-value">1.625</span>;
+  <span class="code-token-prop">--line-height-loose</span>:   <span class="code-token-value">2</span>;
+<span style="color:#e2e8f0;">}</span></code></pre>
+        </div>
+      </div>
+
+      <!-- Tailwind pane -->
+      <div class="tab-pane" id="tab-tailwind" style="margin:0 var(--spacing-10);">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span style="color:#94a3b8;font-size:0.75rem;font-family:var(--font-mono);">tailwind.config.js</span>
+            <button class="copy-btn" onclick="copyCode(this,'code-tailwind')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="code-tailwind"><code><span class="code-token-comment">/** @type {import('tailwindcss').Config} */</span>
+<span style="color:#f8fafc;">module</span>.<span style="color:#f9a8d4;">exports</span> = <span style="color:#e2e8f0;">{</span>
+  <span class="code-token-prop">theme</span>: <span style="color:#e2e8f0;">{</span>
+    <span class="code-token-prop">extend</span>: <span style="color:#e2e8f0;">{</span>
+      <span class="code-token-prop">fontFamily</span>: <span style="color:#e2e8f0;">{</span>
+        <span class="code-token-var">'sans'</span>: <span class="code-token-value">['Poppins', '-apple-system', 'sans-serif']</span>,
+        <span class="code-token-var">'mono'</span>: <span class="code-token-value">['JetBrains Mono', 'monospace']</span>,
+      <span style="color:#e2e8f0;">},</span>
+      <span class="code-token-prop">fontSize</span>: <span style="color:#e2e8f0;">{</span>
+        <span class="code-token-var">'ds-xs'</span>:   <span class="code-token-value">['var(--font-size-xs)', { lineHeight: 'var(--line-height-normal)' }]</span>,
+        <span class="code-token-var">'ds-sm'</span>:   <span class="code-token-value">['var(--font-size-sm)', { lineHeight: 'var(--line-height-normal)' }]</span>,
+        <span class="code-token-var">'ds-base'</span>: <span class="code-token-value">['var(--font-size-base)', { lineHeight: 'var(--line-height-normal)' }]</span>,
+        <span class="code-token-var">'ds-lg'</span>:   <span class="code-token-value">['var(--font-size-lg)', { lineHeight: 'var(--line-height-normal)' }]</span>,
+        <span class="code-token-var">'ds-xl'</span>:   <span class="code-token-value">['var(--font-size-xl)', { lineHeight: 'var(--line-height-snug)' }]</span>,
+        <span class="code-token-var">'ds-2xl'</span>:  <span class="code-token-value">['var(--font-size-2xl)', { lineHeight: 'var(--line-height-tight)' }]</span>,
+        <span class="code-token-var">'ds-3xl'</span>:  <span class="code-token-value">['var(--font-size-3xl)', { lineHeight: 'var(--line-height-tight)' }]</span>,
+        <span class="code-token-var">'ds-4xl'</span>:  <span class="code-token-value">['var(--font-size-4xl)', { lineHeight: 'var(--line-height-tight)' }]</span>,
+        <span class="code-token-var">'ds-5xl'</span>:  <span class="code-token-value">['var(--font-size-5xl)', { lineHeight: '1' }]</span>,
+      <span style="color:#e2e8f0;">},</span>
+    <span style="color:#e2e8f0;">},</span>
+  <span style="color:#e2e8f0;">},</span>
+<span style="color:#e2e8f0;">}</span></code></pre>
+        </div>
+      </div>
+
+      <!-- Usage pane -->
+      <div class="tab-pane" id="tab-usage" style="margin:0 var(--spacing-10);">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span style="color:#94a3b8;font-size:0.75rem;font-family:var(--font-mono);">HTML — Typography usage examples</span>
+            <button class="copy-btn" onclick="copyCode(this,'code-usage')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="code-usage"><code><span class="code-token-comment">&lt;!-- H1: bold + tight line-height --&gt;</span>
+<span style="color:#f9a8d4;">&lt;h1</span> <span class="code-token-var">class</span>=<span class="code-token-value">"text-4xl font-bold leading-tight text-gray-900"</span><span style="color:#f9a8d4;">&gt;</span>
+  Page Title
+<span style="color:#f9a8d4;">&lt;/h1&gt;</span>
+
+<span class="code-token-comment">&lt;!-- Body paragraph --&gt;</span>
+<span style="color:#f9a8d4;">&lt;p</span> <span class="code-token-var">class</span>=<span class="code-token-value">"text-base font-normal leading-normal text-gray-600"</span><span style="color:#f9a8d4;">&gt;</span>
+  Body text yang nyaman dibaca di semua perangkat.
+<span style="color:#f9a8d4;">&lt;/p&gt;</span>
+
+<span class="code-token-comment">&lt;!-- Label / badge --&gt;</span>
+<span style="color:#f9a8d4;">&lt;span</span> <span class="code-token-var">class</span>=<span class="code-token-value">"text-xs font-medium uppercase tracking-widest"</span><span style="color:#f9a8d4;">&gt;</span>
+  Section Label
+<span style="color:#f9a8d4;">&lt;/span&gt;</span>
+
+<span class="code-token-comment">&lt;!-- Inline code --&gt;</span>
+<span style="color:#f9a8d4;">&lt;code</span> <span class="code-token-var">class</span>=<span class="code-token-value">"font-mono text-sm text-red-600 bg-gray-100 px-1 rounded"</span><span style="color:#f9a8d4;">&gt;</span>
+  const x = 42;
+<span style="color:#f9a8d4;">&lt;/code&gt;</span>
+
+<span class="code-token-comment">&lt;!-- CSS Variable approach (vanilla CSS) --&gt;</span>
+<span style="color:#f9a8d4;">&lt;p</span> <span class="code-token-var">style</span>=<span class="code-token-value">"
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+"</span><span style="color:#f9a8d4;">&gt;</span>Vanilla CSS typography<span style="color:#f9a8d4;">&lt;/p&gt;</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Section 6: Guidelines ─────────────────────────────────── -->
+    <section style="margin-bottom:var(--spacing-12);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:var(--spacing-6);">
+          <span class="section-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Guidelines
+          </span>
+          <h2 style="margin:0;">Usage Guidelines</h2>
+        </div>
+      </div>
+
+      <div style="margin:0 var(--spacing-10) var(--spacing-6);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--spacing-4);">
+        <div class="guide-do">
+          <h3 style="font-size:var(--font-size-base);display:flex;align-items:center;gap:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+            Do
+          </h3>
+          <ul style="margin:0;padding-left:var(--spacing-5);font-size:var(--font-size-sm);color:var(--text-1);display:flex;flex-direction:column;gap:var(--spacing-2);">
+            <li>Gunakan scale yang telah ditentukan, jangan buat custom sizes</li>
+            <li>Minimum <code style="font-family:var(--font-mono);font-size:0.75em;background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px;">14px</code> untuk body text agar mudah terbaca</li>
+            <li>Gunakan semantic HTML (h1–h6, p, strong, em, code)</li>
+            <li>Test readability di dark dan light background</li>
+            <li>Pastikan contrast ratio WCAG AA (4.5:1 untuk normal text)</li>
+          </ul>
+        </div>
+
+        <div class="guide-dont">
+          <h3 style="font-size:var(--font-size-base);display:flex;align-items:center;gap:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+            Don't
+          </h3>
+          <ul style="margin:0;padding-left:var(--spacing-5);font-size:var(--font-size-sm);color:var(--text-1);display:flex;flex-direction:column;gap:var(--spacing-2);">
+            <li>Jangan buat custom font sizes di luar scale ini</li>
+            <li>Jangan gunakan font size kurang dari <code style="font-family:var(--font-mono);font-size:0.75em;background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px;">12px</code></li>
+            <li>Jangan mix font families dalam satu component</li>
+            <li>Jangan skip line-height — selalu set secara eksplisit</li>
+            <li>Jangan gunakan lebih dari 2–3 font family berbeda</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Hierarchy Quick Reference -->
+      <div style="margin:0 var(--spacing-10);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--border-radius-xl);padding:var(--spacing-6);">
+        <h3 style="margin-bottom:var(--spacing-5);font-size:var(--font-size-base);font-weight:700;color:var(--text-1);">Typography Hierarchy — Quick Reference</h3>
+        <div style="display:flex;flex-direction:column;gap:var(--spacing-3);">
+          <div style="display:flex;align-items:baseline;gap:var(--spacing-4);flex-wrap:wrap;padding:var(--spacing-3) var(--spacing-4);border-radius:var(--radius-md);background:var(--bg-subtle);">
+            <span style="min-width:64px;font-size:var(--font-size-xs);font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;">H1</span>
+            <span style="font-size:clamp(24px,3.5vw,36px);font-weight:700;line-height:1.2;color:var(--text-1);">Page Title</span>
+            <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--text-3);margin-left:auto;">36px · Bold · tight</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:var(--spacing-4);flex-wrap:wrap;padding:var(--spacing-3) var(--spacing-4);border-radius:var(--radius-md);">
+            <span style="min-width:64px;font-size:var(--font-size-xs);font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;">H2</span>
+            <span style="font-size:clamp(20px,3vw,30px);font-weight:700;line-height:1.2;color:var(--text-1);">Section Title</span>
+            <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--text-3);margin-left:auto;">30px · Bold · tight</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:var(--spacing-4);flex-wrap:wrap;padding:var(--spacing-3) var(--spacing-4);border-radius:var(--radius-md);background:var(--bg-subtle);">
+            <span style="min-width:64px;font-size:var(--font-size-xs);font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;">H3</span>
+            <span style="font-size:var(--font-size-2xl);font-weight:600;line-height:1.375;color:var(--text-1);">Subsection</span>
+            <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--text-3);margin-left:auto;">24px · Semibold · snug</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:var(--spacing-4);flex-wrap:wrap;padding:var(--spacing-3) var(--spacing-4);border-radius:var(--radius-md);">
+            <span style="min-width:64px;font-size:var(--font-size-xs);font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;">Body</span>
+            <span style="font-size:var(--font-size-base);font-weight:400;line-height:1.5;color:var(--text-1);">Body paragraph — mudah dibaca dan konsisten</span>
+            <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--text-3);margin-left:auto;">16px · Normal · normal</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:var(--spacing-4);flex-wrap:wrap;padding:var(--spacing-3) var(--spacing-4);border-radius:var(--radius-md);background:var(--bg-subtle);">
+            <span style="min-width:64px;font-size:var(--font-size-xs);font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;">Caption</span>
+            <span style="font-size:var(--font-size-xs);font-weight:400;line-height:1.5;color:var(--text-2);">Helper text, captions, timestamps, metadata</span>
+            <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--text-3);margin-left:auto;">12px · Normal · normal</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Footer ────────────────────────────────────────────────── -->
+    <footer class="page-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="logo-icon sm">G</div>
+            <span>GPOS Lite DS</span>
+          </div>
+          <p>Typography System Foundation</p>
+        </div>
+        <div class="footer-links">
+          <a href="colors.html">Colors</a>
+          <a href="spacing.html">Spacing</a>
+          <a href="shadows.html">Shadows</a>
+          <a href="borders.html">Borders</a>
+          <a href="grid.html">Grid</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 GPOS Lite Design System V 2.0 &mdash; Maintained with &#10084;&#65039;</p>
+      </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll ke atas">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+  </main>
+</div><!-- /layout -->
+
+<script src="../js/script.js"></script>
+<script>
+  /* ─── Dark mode init (apply before paint) ─────────────────────── */
+  (function () {
+    var saved = localStorage.getItem('gpos-theme');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+
+  function toggleDarkMode() {
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('gpos-theme', 'light');
+      var lbl = document.getElementById('toggleLabel');
+      if (lbl) lbl.textContent = 'Dark Mode';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('gpos-theme', 'dark');
+      var lbl = document.getElementById('toggleLabel');
+      if (lbl) lbl.textContent = 'Light Mode';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    /* Dark mode label sync */
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var toggleLabel = document.getElementById('toggleLabel');
+    if (toggleLabel) toggleLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+
+    var darkBtn    = document.getElementById('darkModeToggle');
+    var topbarBtn  = document.getElementById('topbarTheme');
+    if (darkBtn)   darkBtn.addEventListener('click', toggleDarkMode);
+    if (topbarBtn) topbarBtn.addEventListener('click', toggleDarkMode);
+
+    /* ─── Sidebar — mobile ───────────────────────────────────────── */
+    var sidebar   = document.getElementById('sidebar');
+    var overlay   = document.getElementById('sidebarOverlay');
+    var hamburger = document.getElementById('hamburger');
+    var closeBtn  = document.getElementById('sidebarClose');
+
+    function openSidebar()  { sidebar.classList.add('open');    overlay.classList.add('active'); }
+    function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('active'); }
+
+    if (hamburger) hamburger.addEventListener('click', openSidebar);
+    if (closeBtn)  closeBtn.addEventListener('click', closeSidebar);
+    if (overlay)   overlay.addEventListener('click', closeSidebar);
+
+    /* ─── Sidebar — desktop collapse ────────────────────────────── */
+    var layout      = document.getElementById('layout');
+    var collapseBtn = document.getElementById('sidebarCollapseBtn');
+    var reopenTab   = document.getElementById('sidebarReopenTab');
+
+    if (collapseBtn) collapseBtn.addEventListener('click', function () { layout.classList.toggle('sidebar-collapsed'); });
+    if (reopenTab)   reopenTab.addEventListener('click', function () { layout.classList.remove('sidebar-collapsed'); });
+
+    /* ─── Scroll to top ──────────────────────────────────────────── */
+    var scrollBtn = document.getElementById('scrollToTop');
+    var main      = document.getElementById('mainContent');
+    if (main && scrollBtn) {
+      main.addEventListener('scroll', function () {
+        scrollBtn.classList.toggle('visible', main.scrollTop > 300);
+      });
+      scrollBtn.addEventListener('click', function () {
+        main.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    /* ─── Tab switching ──────────────────────────────────────────── */
+    document.querySelectorAll('.tab-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(function (b) {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+        document.querySelectorAll('.tab-pane').forEach(function (p) {
+          p.classList.toggle('active', p.id === 'tab-' + target);
+        });
+      });
+    });
+  });
+
+  /* ─── Copy code ──────────────────────────────────────────────── */
+  function copyCode(btn, id) {
+    var el   = document.getElementById(id);
+    var text = el ? el.innerText : '';
+    navigator.clipboard.writeText(text).then(function () {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+      setTimeout(function () {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+      }, 2000);
+    });
+  }
+</script>
 </body>
 </html>
