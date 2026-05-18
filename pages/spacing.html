@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -28,7 +28,7 @@
               },
             },
             fontFamily: {
-              sans: ['Inter', '-apple-system', 'sans-serif'],
+              sans: ['Poppins', '-apple-system', 'sans-serif'],
               mono: ['JetBrains Mono', 'monospace'],
             },
             spacing: {
@@ -293,7 +293,7 @@
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
 </button>
 
-<div class="container">
+<div class="layout">
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -394,48 +394,72 @@
       <button class="topbar-theme" id="topbarTheme" aria-label="Toggle theme"></button>
     </div>
 
-    <!-- ─── Page Header ──────────────────────────────────────────── -->
-    <header class="page-header">
-      <div style="display:flex;align-items:center;gap:var(--spacing-3);flex-wrap:wrap;margin-bottom:var(--spacing-2);">
-        <span class="section-chip">
+    <!-- ─── Page Header (Enhanced Hero) ──────────────────────────────────────────── -->
+    <div style="margin:0 var(--spacing-10) var(--spacing-6);background:linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);border-radius:var(--radius-2xl);padding:var(--spacing-10) var(--spacing-12);position:relative;overflow:hidden;display:flex;align-items:center;gap:var(--spacing-10);">
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;width:200px;height:200px;background:#1E7FD6;border-radius:50%;filter:blur(60px);opacity:0.35;top:-40px;right:150px;"></div>
+        <div style="position:absolute;width:150px;height:150px;background:#6E3EF6;border-radius:50%;filter:blur(60px);opacity:0.3;bottom:-30px;right:50px;"></div>
+      </div>
+      <div style="position:relative;z-index:1;flex:1;">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);backdrop-filter:blur(4px);color:rgba(255,255,255,.85);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;padding:5px 12px;border-radius:var(--radius-full);border:1px solid rgba(255,255,255,.15);margin-bottom:var(--spacing-4);">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
-          Foundation
-        </span>
-        <span class="tw-badge">Tailwind + CSS Variables</span>
+          Spacing Foundation
+        </div>
+        <h1 style="font-size:clamp(1.75rem, 3.5vw, 2.75rem);font-weight:800;color:white;line-height:1.1;margin:0 0 var(--spacing-3);letter-spacing:-.025em;">Spacing <span style="background:linear-gradient(135deg, #93c5fd 0%, #a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">System</span></h1>
+        <p style="color:rgba(255,255,255,.7);font-size:14px;line-height:1.65;margin:0;max-width:55ch;">12-step spacing scale berbasis <strong style="color:rgba(255,255,255,.9);">4px base unit</strong> untuk mathematical harmony dan visual rhythm. Tersedia sebagai CSS Custom Properties dan Tailwind utility classes dengan dokumentasi lengkap.</p>
       </div>
-      <h1>Spacing System</h1>
-      <p class="subtitle">12-step spacing scale dengan <strong>4px base unit</strong> untuk consistent rhythm dan alignment — tersedia sebagai CSS Custom Properties maupun Tailwind utility classes.</p>
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;flex-shrink:0;text-align:center;">
+        <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-lg);padding:var(--spacing-3) var(--spacing-4);">
+          <div style="color:rgba(255,255,255,.9);font-size:20px;font-weight:700;">12</div>
+          <div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:2px;">Tokens</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-lg);padding:var(--spacing-3) var(--spacing-4);">
+          <div style="color:rgba(255,255,255,.9);font-size:20px;font-weight:700;">∞</div>
+          <div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:2px;">Use Cases</div>
+        </div>
+      </div>
+    </div>
 
-      <!-- Stat pills -->
-      <div style="display:flex;flex-wrap:wrap;gap:var(--spacing-3);margin-top:var(--spacing-5);">
-        <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-full);font-size:var(--font-size-sm);">
-          <span style="color:var(--color-primary-500);font-weight:700;">8</span>
-          <span style="color:var(--text-2);">Spacing steps</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-full);font-size:var(--font-size-sm);">
-          <span style="color:var(--color-secondary-500);font-weight:700;">4px</span>
-          <span style="color:var(--text-2);">Base unit</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-full);font-size:var(--font-size-sm);">
-          <span style="color:var(--color-success-500);font-weight:700;">4–64px</span>
-          <span style="color:var(--text-2);">Scale range</span>
+    <!-- ─── Stats Bar ──────────────────────────────────────────── -->
+    <div style="margin:0 var(--spacing-10) var(--spacing-8);display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--spacing-4) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-3);box-shadow:var(--shadow-sm);transition:all var(--transition-base);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--color-primary-300');this.style.boxShadow=getComputedStyle(document.documentElement).getPropertyValue('--shadow-md');this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--border');this.style.boxShadow=getComputedStyle(document.documentElement).getPropertyValue('--shadow-sm');this.style.transform='translateY(0)'">
+        <div style="width:40px;height:40px;border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#EFF6FF;font-size:20px;">📏</div>
+        <div>
+          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">12</div>
+          <div style="font-size:11px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;">Spacing Tokens</div>
         </div>
       </div>
-    </header>
+      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--spacing-4) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-3);box-shadow:var(--shadow-sm);transition:all var(--transition-base);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--color-primary-300');this.style.boxShadow=getComputedStyle(document.documentElement).getPropertyValue('--shadow-md');this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--border');this.style.boxShadow=getComputedStyle(document.documentElement).getPropertyValue('--shadow-sm');this.style.transform='translateY(0)'">
+        <div style="width:40px;height:40px;border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#F0FDF4;font-size:20px;">🔄</div>
+        <div>
+          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">4px</div>
+          <div style="font-size:11px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;">Base Unit</div>
+        </div>
+      </div>
+      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--spacing-4) var(--spacing-5);display:flex;align-items:center;gap:var(--spacing-3);box-shadow:var(--shadow-sm);transition:all var(--transition-base);" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--color-primary-300');this.style.boxShadow=getComputedStyle(document.documentElement).getPropertyValue('--shadow-md');this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--border');this.style.boxShadow=getComputedStyle(document.documentElement).getPropertyValue('--shadow-sm');this.style.transform='translateY(0)'">
+        <div style="width:40px;height:40px;border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#FFF7ED;font-size:20px;">✨</div>
+        <div>
+          <div style="font-size:var(--font-size-xl);font-weight:800;color:var(--text-1);letter-spacing:-.02em;line-height:1;margin-bottom:2px;">100%</div>
+          <div style="font-size:11px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;">Consistency</div>
+        </div>
+      </div>
+    </div>
 
     <!-- ─── Section 1: Spacing Scale ────────────────────────────── -->
     <section style="margin-bottom:var(--spacing-12);">
-      <div style="margin-bottom:var(--spacing-6);">
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
         <span class="section-chip">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
           Scale
         </span>
-        <h2 style="margin-bottom:var(--spacing-2);">Spacing Scale</h2>
-        <p style="color:var(--text-2);font-size:var(--font-size-sm);">Semua spacing value berbasis 4px unit untuk mathematical harmony dan consistency. Setiap token tersedia sebagai CSS variable <em>dan</em> Tailwind class.</p>
+        <h2 style="margin:0;margin-bottom:0;">Spacing Scale</h2>
+      </div>
+      <div style="margin:0 var(--spacing-10) var(--spacing-6);">
+        <p style="color:var(--text-2);font-size:var(--font-size-sm);margin:0;">Semua spacing value berbasis 4px unit untuk mathematical harmony dan consistency. Setiap token tersedia sebagai CSS variable <em>dan</em> Tailwind class.</p>
       </div>
 
       <!-- Scale cards -->
-      <div style="display:flex;flex-direction:column;gap:var(--spacing-3);margin-bottom:var(--spacing-8);" id="scaleList">
+      <div style="margin:0 var(--spacing-10);display:flex;flex-direction:column;gap:var(--spacing-3);margin-bottom:var(--spacing-8);" id="scaleList">
 
         <!-- 4px -->
         <div class="scale-card">
@@ -577,7 +601,7 @@
       </div><!-- /scale cards -->
 
       <!-- Full reference table -->
-      <details style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+      <details style="margin:0 var(--spacing-10);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
         <summary style="padding:var(--spacing-4) var(--spacing-6);font-weight:var(--font-weight-semibold);font-size:var(--font-size-sm);cursor:pointer;color:var(--text-1);list-style:none;display:flex;align-items:center;gap:var(--spacing-2);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
           Full Reference Table
@@ -684,24 +708,26 @@
 
     <!-- ─── Section 2: CSS Variables Code ───────────────────────── -->
     <section style="margin-bottom:var(--spacing-12);">
-      <div style="margin-bottom:var(--spacing-6);">
-        <span class="section-chip">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          Code
-        </span>
-        <h2 style="margin-bottom:var(--spacing-2);">CSS Variables &amp; Tailwind</h2>
-        <p style="color:var(--text-2);font-size:var(--font-size-sm);">Gunakan token langsung via CSS Custom Properties atau melalui Tailwind utility classes. Keduanya mengacu pada nilai yang sama.</p>
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:var(--spacing-6);">
+          <span class="section-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Code
+          </span>
+          <h2 style="margin:0;">CSS Variables &amp; Tailwind</h2>
+        </div>
+        <p style="color:var(--text-2);font-size:var(--font-size-sm);margin:0;">Gunakan token langsung via CSS Custom Properties atau melalui Tailwind utility classes. Keduanya mengacu pada nilai yang sama.</p>
       </div>
 
       <!-- Tabs -->
-      <div class="tab-nav" role="tablist">
+      <div class="tab-nav" role="tablist" style="margin:var(--spacing-6) var(--spacing-10);">
         <button class="tab-btn active" role="tab" aria-selected="true" data-tab="css-var">CSS Variables</button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="tailwind">Tailwind Config</button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="usage">Usage Examples</button>
       </div>
 
       <!-- CSS Variables pane -->
-      <div class="tab-pane active" id="tab-css-var">
+      <div class="tab-pane active" id="tab-css-var" style="margin:0 var(--spacing-10);">
         <div class="code-block">
           <div class="code-block-header">
             <span style="color:#94a3b8;font-size:0.75rem;font-family:var(--font-mono);">styles.css — :root</span>
@@ -729,7 +755,7 @@
       </div>
 
       <!-- Tailwind pane -->
-      <div class="tab-pane" id="tab-tailwind">
+      <div class="tab-pane" id="tab-tailwind" style="margin:0 var(--spacing-10);">
         <div class="code-block">
           <div class="code-block-header">
             <span style="color:#94a3b8;font-size:0.75rem;font-family:var(--font-mono);">tailwind.config.js</span>
@@ -760,7 +786,7 @@
       </div>
 
       <!-- Usage Examples pane -->
-      <div class="tab-pane" id="tab-usage">
+      <div class="tab-pane" id="tab-usage" style="margin:0 var(--spacing-10);">
         <div class="code-block">
           <div class="code-block-header">
             <span style="color:#94a3b8;font-size:0.75rem;font-family:var(--font-mono);">HTML — Tailwind classes</span>
@@ -797,16 +823,18 @@
 
     <!-- ─── Section 3: Visual Demo ───────────────────────────────── -->
     <section style="margin-bottom:var(--spacing-12);">
-      <div style="margin-bottom:var(--spacing-6);">
-        <span class="section-chip">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          Visual Demo
-        </span>
-        <h2 style="margin-bottom:var(--spacing-2);">Padding Visual Preview</h2>
-        <p style="color:var(--text-2);font-size:var(--font-size-sm);">Hover setiap kotak untuk melihat efek spacing. Ukuran padding ditunjukkan oleh ruang di luar elemen inner.</p>
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:var(--spacing-4);">
+          <span class="section-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Visual Demo
+          </span>
+          <h2 style="margin:0;">Padding Visual Preview</h2>
+        </div>
+        <p style="color:var(--text-2);font-size:var(--font-size-sm);margin:0;">Hover setiap kotak untuk melihat efek spacing. Ukuran padding ditunjukkan oleh ruang di luar elemen inner (highlight biru).</p>
       </div>
 
-      <div class="demo-pad-wrap">
+      <div class="demo-pad-wrap" style="margin:var(--spacing-6) var(--spacing-10);">
         <div class="demo-pad" style="padding:4px;" title="p-1 — 4px">
           <div class="demo-pad-inner">1</div>
           <span style="display:block;text-align:center;margin-top:4px;font-size:0.6rem;padding:0 2px;">4px</span>
@@ -840,15 +868,17 @@
 
     <!-- ─── Section 4: Usage Guidelines ─────────────────────────── -->
     <section style="margin-bottom:var(--spacing-12);">
-      <div style="margin-bottom:var(--spacing-6);">
-        <span class="section-chip">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          Guidelines
-        </span>
-        <h2>Usage Guidelines</h2>
+      <div style="margin:var(--spacing-8) var(--spacing-10) var(--spacing-6);">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:var(--spacing-6);">
+          <span class="section-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Guidelines
+          </span>
+          <h2 style="margin:0;">Usage Guidelines</h2>
+        </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--spacing-4);margin-bottom:var(--spacing-6);">
+      <div style="margin:var(--spacing-6) var(--spacing-10) var(--spacing-8);display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--spacing-4);margin-bottom:var(--spacing-6);">
 
         <div class="guide-do">
           <h3 style="font-size:var(--font-size-base);display:flex;align-items:center;gap:6px;">
@@ -881,8 +911,8 @@
       </div>
 
       <!-- Contextual guide -->
-      <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--spacing-6);">
-        <h3 style="margin-bottom:var(--spacing-4);font-size:var(--font-size-base);">Contextual Spacing Guide</h3>
+      <div style="margin:0 var(--spacing-10);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:var(--spacing-6);">
+        <h3 style="margin-bottom:var(--spacing-4);font-size:var(--font-size-base);font-weight:700;">Contextual Spacing Guide</h3>
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:var(--spacing-4);">
           <div style="display:flex;flex-direction:column;gap:var(--spacing-2);">
             <p style="font-size:var(--font-size-xs);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3);">Icons &amp; tight UI</p>
@@ -909,15 +939,33 @@
     </section>
 
     <!-- Footer -->
-    <footer class="page-footer">
-      <p>&copy; 2024 GPOS Lite Design System V 2.0</p>
+        <footer class="page-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="logo-icon sm">G</div>
+            <span>GPOS Lite DS</span>
+          </div>
+          <p>Spacing System Foundation</p>
+        </div>
+        <div class="footer-links">
+          <a href="colors.html">Colors</a>
+          <a href="typography.html">Typography</a>
+          <a href="shadows.html">Shadows</a>
+          <a href="borders.html">Borders</a>
+          <a href="grid.html">Grid</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 GPOS Lite Design System V 2.0 &mdash; Maintained with &#10084;&#65039;</p>
+      </div>
     </footer>
 
     <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll ke atas">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
     </button>
   </main>
-</div><!-- /container -->
+</div><!-- /layout -->
 
 <script src="../js/script.js"></script>
 <script>
